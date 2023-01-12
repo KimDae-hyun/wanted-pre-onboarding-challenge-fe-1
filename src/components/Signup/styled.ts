@@ -26,7 +26,13 @@ export const User = styled.div`
 
 export const PhoneError = styled.div<{ error: number }>`
   color: ${(props) =>
-    props.error < 2 ? '#F00001' : props.error < 4 ? '#F09A00' : '#006EFF'};
+    props.error < 2
+      ? '#F00001'
+      : props.error < 3
+      ? '#F09A00'
+      : props.error < 4
+      ? '#5acf28'
+      : '#006EFF'};
   margin: 0.5rem;
   font-size: 0.8rem;
 `;
