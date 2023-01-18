@@ -5,16 +5,15 @@ export const AppContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100vw;
+  height: 100vh;
 `;
 
 export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-block: auto;
   padding: 2rem;
-  position: absolute;
-  top: 6rem;
+
   .error {
     color: #f00001;
     margin: 0.5rem;

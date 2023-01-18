@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useValid } from '../../hooks/validation/useValid';
+import { useSetRecoilState } from 'recoil';
+import { useValid } from '../../hooks/useValid';
 import {
   PageContainer,
   Title,
@@ -10,8 +11,11 @@ import {
   HorizontalLine,
 } from '../../styles/styled';
 import { User } from './styled';
+import instance from '../../utils/axios/axios';
+import { loginState } from '../../utils/recoil/login';
 
 function Login() {
+  const setLoggedIn = useSetRecoilState(loginState);
   const [active, setActive] = useState<boolean>(false);
   const { email } = useValid({ tag: 'email', initialValue: '' });
   const { password } = useValid({ tag: 'password', initialValue: '' });
@@ -22,6 +26,19 @@ function Login() {
     if (!email.validMsg && password.pwLevel) setActive(true);
     else setActive(false);
   }, [email, password]);
+
+  const loginHandler = async () => {
+    try {
+      const res = await instance.post('/users/login', {
+        email: email.value,
+        password: password.value,
+      });
+      localStorage.setItem('loginToken', res.data.token);
+      setLoggedIn(true);
+    } catch (e) {
+      alert('로그인에 실패하였습니다.');
+    }
+  };
 
   return (
     <PageContainer>
@@ -50,7 +67,7 @@ function Login() {
         )}
       </User>
       <Buttons active={active}>
-        <button>로그인</button>
+        <button onClick={loginHandler}>로그인</button>
       </Buttons>
       <HorizontalLine />
       <Guide>아직 회원이 아니신가요?</Guide>

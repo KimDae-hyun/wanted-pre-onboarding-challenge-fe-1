@@ -1,7 +1,8 @@
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
+import Layout from './components/Layout/Layout';
 import Signup from './pages/Signup';
+import Main from './pages/Main';
 import { AppContainer } from './styles/styled';
 
 function App() {
@@ -9,12 +10,12 @@ function App() {
     <>
       <RecoilRoot>
         <Router>
-          <AppContainer>
+          <Layout>
             <Routes>
-              <Route path='/' element={<Login />} />
+              <Route path='/' element={<Main />} />
               <Route path='/signup' element={<Signup />} />
             </Routes>
-          </AppContainer>
+          </Layout>
         </Router>
       </RecoilRoot>
     </>

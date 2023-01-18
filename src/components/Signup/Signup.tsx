@@ -8,7 +8,8 @@ import {
   StarWrap,
 } from '../../styles/styled';
 import { User, PhoneError } from './styled';
-import { useValid } from '../../hooks/validation/useValid';
+import { useValid } from '../../hooks/useValid';
+import instance from '../../utils/axios/axios';
 
 function Signup() {
   const [active, setActive] = useState<boolean>(false);
@@ -20,6 +21,7 @@ function Signup() {
   });
   const { name } = useValid({ tag: 'name', initialValue: '' });
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -35,6 +37,19 @@ function Signup() {
       setActive(true);
     else setActive(false);
   }, [email, password, passwordCheck, name]);
+
+  const signupHandler = async () => {
+    try {
+      const res = await instance.post('/users/create', {
+        email: email.value,
+        password: password.value,
+      });
+      alert(res.data.message);
+      navigate('/');
+    } catch (e: any) {
+      alert(e.response.data.details);
+    }
+  };
 
   return (
     <>
@@ -96,7 +111,7 @@ function Signup() {
           />
           {name.validMsg && <div className='error'>{name.validMsg}</div>}
           <Buttons active={active}>
-            <button>회원가입</button>
+            <button onClick={signupHandler}>회원가입</button>
           </Buttons>
         </User>
       </PageContainer>
