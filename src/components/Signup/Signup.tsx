@@ -9,7 +9,7 @@ import {
 } from '../../styles/styled';
 import { User, PhoneError } from './styled';
 import { useValid } from '../../hooks/useValid';
-import instance from '../../utils/axios/axios';
+import instance from '../../utils/axios';
 
 function Signup() {
   const [active, setActive] = useState<boolean>(false);

@@ -11,8 +11,8 @@ import {
   HorizontalLine,
 } from '../../styles/styled';
 import { User } from './styled';
-import instance from '../../utils/axios/axios';
-import { loginState } from '../../utils/recoil/login';
+import instance from '../../utils/axios';
+import { loginState } from '../../utils/login';
 
 function Login() {
   const setLoggedIn = useSetRecoilState(loginState);

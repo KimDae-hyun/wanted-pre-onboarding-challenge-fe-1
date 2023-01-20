@@ -3,7 +3,7 @@ import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
 import Login from '../../pages/Login';
 import Signup from '../../pages/Signup';
-import { loginState } from '../../utils/recoil/login';
+import { loginState } from '../../utils/login';
 import { LogoutButton } from './styled';
 import { AppContainer } from '../../styles/styled';
 
@@ -32,7 +32,7 @@ function Layout({ children }: LayoutProps) {
       ) : (
         <AppContainer>
           <Routes>
-            <Route path='/' element={<Login />} />
+            <Route index element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>
         </AppContainer>

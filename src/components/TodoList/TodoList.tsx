@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useTodos } from '../../hooks/useTodos';
 import { PageContainer, Title } from '../../styles/styled';
-import instance from '../../utils/axios/axios';
+import { addTodoList, getTodoList } from '../../utils/apis';
 import { TodoItem } from './TodoItem';
 
 interface todoType {
@@ -11,53 +11,33 @@ interface todoType {
   createdAt: string;
   updatedAt: string;
 }
+interface simpleTodoType {
+  title: string;
+  content: string;
+}
 
 function TodoList() {
-  const [todoList, setTodoList] = useState<todoType[]>([]);
   const title = useTodos();
   const contents = useTodos();
-
-  useEffect(() => {
-    getTodoList();
-  }, []);
-
-  const getTodoList = async () => {
-    try {
-      const res = await instance.get('/todos');
-      setTodoList(res?.data.data);
-      console.log('get', res.data.data);
-    } catch (e) {
-      console.log('get', e);
+  const { data } = useQuery<todoType[]>('todos', getTodoList);
+  const queryClient = useQueryClient();
+  const addTodo = useMutation(
+    ({ title, content }: simpleTodoType) => addTodoList(title, content),
+    {
+      onSuccess: () => queryClient.invalidateQueries('todos'),
     }
-  };
-
-  const addTodoList = async () => {
-    try {
-      const res = await instance.post('/todos', {
-        title: title.value,
-        content: contents.value,
-      });
-      setTodoList(res?.data);
-      title.setValue('');
-      contents.setValue('');
-      getTodoList();
-    } catch (e) {
-      console.log('add', e);
-    }
+  );
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    addTodo.mutate({ title: title.value, content: contents.value });
+    title.setValue('');
+    contents.setValue('');
   };
 
   return (
     <PageContainer>
       <Title>Todo List</Title>
-      {todoList.length > 0 &&
-        todoList?.map((el: todoType) => (
-          <TodoItem {...el} getTodoList={getTodoList} />
-        ))}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form onSubmit={onSubmit}>
         <input
           type='text'
           placeholder='제목을 적어주세요.'
@@ -72,13 +52,11 @@ function TodoList() {
           value={contents.value}
           onChange={contents.onChange}
         />
-        <input
-          type='button'
-          value='추가'
-          className='button'
-          onClick={addTodoList}
-        />
+        <input type='submit' value='추가' className='button' />
       </form>
+      {data?.map((el: todoType) => (
+        <TodoItem {...el} />
+      ))}
     </PageContainer>
   );
 }

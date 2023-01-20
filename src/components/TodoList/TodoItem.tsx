@@ -1,6 +1,7 @@
 import { HiOutlinePencilSquare, HiOutlineTrash } from 'react-icons/hi2';
+import { useMutation, useQueryClient } from 'react-query';
 import { useCheck } from '../../hooks/useCheck';
-import instance from '../../utils/axios/axios';
+import { deleteTodoList } from '../../utils/apis';
 import { Title } from './styled';
 import { UpdateTodo } from './UpdateTodo';
 
@@ -10,7 +11,6 @@ interface propsType {
   id: string;
   createdAt: string;
   updatedAt: string;
-  getTodoList: () => void;
 }
 
 export function TodoItem({
@@ -19,36 +19,31 @@ export function TodoItem({
   id,
   createdAt,
   updatedAt,
-  getTodoList,
 }: propsType) {
   const update = useCheck();
   const detail = useCheck();
-
-  const deleteTodoList = async (id: string) => {
-    try {
-      await instance.delete(`/todos/${id}`);
-      getTodoList();
-    } catch (e) {
-      console.log('del', e);
-    }
-  };
+  const queryClient = useQueryClient();
+  const deleteTodoMutation = useMutation((id: string) => deleteTodoList(id), {
+    onSuccess: () => {
+      queryClient.removeQueries(['todos', id]);
+      queryClient.invalidateQueries('todos');
+    },
+  });
 
   return (
     <>
       {update.isChecked ? (
         <>
-          <UpdateTodo
-            id={id}
-            setIsUpdate={update.setIsChecked}
-            getToDoList={getTodoList}
-          />
+          <UpdateTodo id={id} setIsUpdate={update.setIsChecked} />
         </>
       ) : (
         <>
-          <Title onClick={() => detail.setIsChecked(!detail.isChecked)}>
-            {title}
+          <Title>
+            <span onClick={() => detail.setIsChecked(!detail.isChecked)}>
+              {title}
+            </span>
             <HiOutlinePencilSquare onClick={() => update.setIsChecked(true)} />
-            <HiOutlineTrash onClick={() => deleteTodoList(id)} />
+            <HiOutlineTrash onClick={() => deleteTodoMutation.mutate(id)} />
           </Title>
           <div>
             {detail.isChecked && (

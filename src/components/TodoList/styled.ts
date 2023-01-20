@@ -3,8 +3,6 @@ import styled from 'styled-components';
 export const Title = styled.span`
   display: flex;
   flex-direction: raw;
-  justify-content: left;
-  align-items: left;
   font-size: 1.3rem;
   font-weight: 500;
   input {

@@ -1,31 +1,41 @@
 import { MdOutlineCancel } from 'react-icons/md';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
+import { useMutation, useQueryClient } from 'react-query';
 import { useTodos } from '../../hooks/useTodos';
-import instance from '../../utils/axios/axios';
+import { updateTodoList } from '../../utils/apis';
 
 interface propsType {
   id: string;
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
-  getToDoList: () => void;
+}
+interface updateProps {
+  id: string;
+  title: string;
+  content: string;
 }
 
-export function UpdateTodo({ id, setIsUpdate, getToDoList }: propsType) {
+export function UpdateTodo({ id, setIsUpdate }: propsType) {
   const title = useTodos();
   const contents = useTodos();
+  const queryClient = useQueryClient();
 
-  const updateTodoList = async () => {
-    if (title.value) {
-      try {
-        const res = await instance.put(`/todos/${id}`, {
-          title: title.value,
-          content: contents.value,
-        });
-        getToDoList();
-        setIsUpdate(false);
-      } catch (e) {
-        console.log('update', e);
-      }
-    } else alert('제목을 입력하세요!');
+  const updateTodoMutation = useMutation(
+    ({ id, title, content }: updateProps) => updateTodoList(id, title, content),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todos');
+        queryClient.invalidateQueries(['todos', id]);
+      },
+    }
+  );
+
+  const updateTodo = () => {
+    updateTodoMutation.mutate({
+      id,
+      title: title.value,
+      content: contents.value,
+    });
+    setIsUpdate(false);
   };
 
   return (
@@ -48,7 +58,7 @@ export function UpdateTodo({ id, setIsUpdate, getToDoList }: propsType) {
         value={contents.value}
         onChange={contents.onChange}
       />
-      <HiOutlinePencilSquare onClick={updateTodoList} />
+      <HiOutlinePencilSquare onClick={() => updateTodo()} />
       <MdOutlineCancel onClick={() => setIsUpdate(false)} />
     </form>
   );
