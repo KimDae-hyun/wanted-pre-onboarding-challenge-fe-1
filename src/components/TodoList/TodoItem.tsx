@@ -2,7 +2,7 @@ import { HiOutlinePencilSquare, HiOutlineTrash } from 'react-icons/hi2';
 import { useMutation, useQueryClient } from 'react-query';
 import { useCheck } from '../../hooks/useCheck';
 import { deleteTodoList } from '../../utils/apis';
-import { Title } from './styled';
+import { ListForm, TodoTitle, UpdateForm } from './styled';
 import { UpdateTodo } from './UpdateTodo';
 
 interface propsType {
@@ -33,28 +33,34 @@ export function TodoItem({
   return (
     <>
       {update.isChecked ? (
-        <>
+        <UpdateForm>
           <UpdateTodo id={id} setIsUpdate={update.setIsChecked} />
-        </>
+        </UpdateForm>
       ) : (
         <>
-          <Title>
-            <span onClick={() => detail.setIsChecked(!detail.isChecked)}>
-              {title}
-            </span>
-            <HiOutlinePencilSquare onClick={() => update.setIsChecked(true)} />
-            <HiOutlineTrash onClick={() => deleteTodoMutation.mutate(id)} />
-          </Title>
-          <div>
+          <ListForm>
+            <TodoTitle onClick={() => detail.setIsChecked(!detail.isChecked)}>
+              {title}{' '}
+              <div>
+                <HiOutlinePencilSquare
+                  onClick={() => update.setIsChecked(true)}
+                  color='#5acf28'
+                />
+                <HiOutlineTrash
+                  onClick={() => deleteTodoMutation.mutate(id)}
+                  color='#5acf28'
+                />
+              </div>
+            </TodoTitle>
             {detail.isChecked && (
               <>
-                <div>내용 : {content}</div>
+                <div>{content}</div>
                 <div>ID : {id}</div>
                 <div>생성일 : {createdAt}</div>
                 <div>수정일 : {updatedAt}</div>
               </>
             )}
-          </div>
+          </ListForm>
         </>
       )}
     </>

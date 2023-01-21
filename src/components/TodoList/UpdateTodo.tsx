@@ -3,6 +3,7 @@ import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { useMutation, useQueryClient } from 'react-query';
 import { useTodos } from '../../hooks/useTodos';
 import { updateTodoList } from '../../utils/apis';
+import { TitleForm } from './styled';
 
 interface propsType {
   id: string;
@@ -35,7 +36,7 @@ export function UpdateTodo({ id, setIsUpdate }: propsType) {
       title: title.value,
       content: contents.value,
     });
-    setIsUpdate(false);
+    if (title.value) setIsUpdate(false);
   };
 
   return (
@@ -44,22 +45,25 @@ export function UpdateTodo({ id, setIsUpdate }: propsType) {
         e.preventDefault();
       }}
     >
-      <input
-        type='text'
-        placeholder='제목을 적어주세요.'
-        maxLength={42}
-        value={title.value}
-        onChange={title.onChange}
-      />
-      <input
-        type='text'
-        placeholder='변경할 내용을 적어주세요.'
-        maxLength={420}
-        value={contents.value}
-        onChange={contents.onChange}
-      />
-      <HiOutlinePencilSquare onClick={() => updateTodo()} />
-      <MdOutlineCancel onClick={() => setIsUpdate(false)} />
+      <TitleForm update={true}>
+        <input
+          type='text'
+          placeholder='변경할 제목을 적어주세요.'
+          maxLength={42}
+          value={title.value}
+          onChange={title.onChange}
+        />
+        <textarea
+          placeholder='변경할 내용을 적어주세요.'
+          maxLength={420}
+          value={contents.value}
+          onChange={contents.onChange}
+        />
+        <div>
+          <HiOutlinePencilSquare onClick={() => updateTodo()} />
+          <MdOutlineCancel onClick={() => setIsUpdate(false)} />
+        </div>
+      </TitleForm>
     </form>
   );
 }

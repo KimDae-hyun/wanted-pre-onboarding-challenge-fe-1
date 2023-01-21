@@ -80,6 +80,14 @@ export const HorizontalLine = styled.hr`
   margin-bottom: 0.3rem;
 `;
 
+export const VerticalLine = styled.hr`
+  width: 1;
+  height: 100%;
+  border: solid 0.5px #5acf28;
+  size: 1px;
+  margin: 0.5rem;
+`;
+
 export const Description = styled.div`
   padding: 1rem;
 
