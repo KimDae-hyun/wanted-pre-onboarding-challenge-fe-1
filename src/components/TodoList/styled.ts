@@ -98,9 +98,10 @@ export const AddButtons = styled.div`
 export const TodoTitle = styled.span`
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
   font-size: 1.2rem;
   font-weight: 400;
   div {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 `;

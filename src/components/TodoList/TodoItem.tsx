@@ -39,19 +39,25 @@ export function TodoItem({
       ) : (
         <>
           <ListForm>
-            <TodoTitle onClick={() => detail.setIsChecked(!detail.isChecked)}>
-              {title}{' '}
-              <div>
-                <HiOutlinePencilSquare
-                  onClick={() => update.setIsChecked(true)}
-                  color='#5acf28'
-                />
-                <HiOutlineTrash
-                  onClick={() => deleteTodoMutation.mutate(id)}
-                  color='#5acf28'
-                />
-              </div>
-            </TodoTitle>
+            <div>
+              <TodoTitle onClick={() => detail.setIsChecked(!detail.isChecked)}>
+                {title}{' '}
+                <div>
+                  <HiOutlinePencilSquare
+                    onClick={(e) => (
+                      update.setIsChecked(true), e.stopPropagation()
+                    )}
+                    color='#5acf28'
+                  />
+                  <HiOutlineTrash
+                    onClick={(e) => (
+                      deleteTodoMutation.mutate(id), e.stopPropagation()
+                    )}
+                    color='#5acf28'
+                  />
+                </div>
+              </TodoTitle>
+            </div>
             {detail.isChecked && (
               <>
                 <div>{content}</div>
