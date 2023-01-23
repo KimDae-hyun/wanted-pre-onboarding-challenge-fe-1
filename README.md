@@ -10,6 +10,27 @@
        yarn install
        yarn start
 
+## 📺 화면 미리보기
+### 🛎️ 회원가입
+https://user-images.githubusercontent.com/73281190/213955424-c2d4a66a-9486-4651-917d-f254f4184b72.mov
+- 이메일 조건 : 최소 @, . 포함
+- 비밀번호 조건 : 8자 이상 입력 (안전도 낮음, 보통, 높음, 매우높음 구현 - 숫자, 영문 소문자, 영문 대문자, 특수문자 포함 여부)
+- 이름 : 숫자, 특수문자 입력 불가
+
+### 🔑 로그인
+https://user-images.githubusercontent.com/73281190/213955429-07b7f489-e887-4e86-8f66-3f445b39339d.mov
+- 이메일, 비밀번호 유효성 확인
+- 이메밀, 비밀번호가 맞지 않을 경우 로그인 실패
+
+### 📌 TodoList
+https://user-images.githubusercontent.com/73281190/213955433-f773c248-e3e7-4c63-ac22-ad5a22dedbad.mov
+- TodoList 추가, 수정, 제거 구현
+- 클릭 시 상세 내용 확인 가능
+
+### 📴 로그아웃
+https://user-images.githubusercontent.com/73281190/213955444-a2b719b2-dfd1-4a6b-8b5d-deb0a6795179.mov
+
+
 ## 📚 구현 요구 사항 목록
 ### 🔐 Assignment 1 - Login / SignUp
 
@@ -57,7 +78,8 @@
 ### Styled-Component
     1. 'CSS IN JS' 방식으로 원하는 스타일을 적재적소에 추가할 수 있다.
 ### Axios, Recoil
-    1. API요청 및 응답을 위해
+    1. Axios: API요청 및 응답을 간결하고 쉽게 사용할 수 있다.
+    2. Recoil: atom이라는 상태를 store 없이 전역으로 관리할 수 있다. atom은 구독, 옵저버와 같은 개념을 생각할 필요없이 hook을 사용하듯이 사용할 수 있다.
     
 ## 🗂️ 폴더 구조
 <img width="881" alt="스크린샷 2023-01-23 오전 8 46 33" src="https://user-images.githubusercontent.com/73281190/213950382-c9814438-0460-4b65-8e82-cd9f27100421.png">
