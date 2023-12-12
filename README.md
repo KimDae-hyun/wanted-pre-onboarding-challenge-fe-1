@@ -3,10 +3,10 @@
 ## 🎥 설치 및 실행방법
 클론을 받은 후 서버와 클라이언트 모두 실행시켜줍니다.
 
-    1. server
+    1. server => https://github.com/starkoora/wanted-pre-onboarding-challenge-fe-1-api.git
        yarn install
        yarn start
-    2. client
+    2. client => repository clone
        yarn install
        yarn start
 
